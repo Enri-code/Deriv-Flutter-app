@@ -40,7 +40,7 @@ class PriceTrackerRepoImpl extends IPriceTrackerRepo {
       //Gets the symbols for each market and stores in the market's symbols variable
       for (final market in markets) {
         market.symbols = symbols.where((symbol) {
-          return symbol.market == market.market;
+          return symbol.marketId == market.marketId;
         }).toList();
       }
       return Right(Stream.value(markets.toList()));
@@ -51,30 +51,31 @@ class PriceTrackerRepoImpl extends IPriceTrackerRepo {
 
   @override
   AsyncErrorOr<ResponseWithSubId<Stream<num>>> getTicks(String symbolId) async {
-    // try {
-    final parameters = jsonEncode({
-      'ticks': symbolId,
-      "req_id": IDGenerator.random(),
-    });
-    SocketConnection.sink.add(parameters);
+    try {
+      final parameters = jsonEncode({
+        'ticks': symbolId,
+        "req_id": IDGenerator.random(),
+      });
+      SocketConnection.sink.add(parameters);
 
-    _ticksSub?.cancel();
-    _ticksSub = SocketConnection.stream.listen((event) {
-      final newData = jsonDecode(event);
-      if (newData['tick'] != null) _ticksStream.add(newData['tick']['quote']);
-    });
+      _ticksSub?.cancel();
+      _ticksSub = SocketConnection.stream.listen((event) {
+        final newData = jsonDecode(event);
+        if (newData['tick'] != null) _ticksStream.add(newData['tick']['quote']);
+      });
 
-    final data = jsonDecode(await SocketConnection.stream.first);
-    if (data['error'] != null) return Left(AppError(data['error']['message']));
-    return Right(
-      ResponseWithSubId(
-        data: _ticksStream.stream.asBroadcastStream(),
-        requestId: data['req_id'],
-      ),
-    );
-    // } catch (e) {
-    //   return const Left(AppError());
-    // }
+      final data = jsonDecode(await SocketConnection.stream.first);
+      if (data['error'] != null)
+        return Left(AppError(data['error']['message']));
+      return Right(
+        ResponseWithSubId(
+          data: _ticksStream.stream.asBroadcastStream(),
+          requestId: data['req_id'],
+        ),
+      );
+    } catch (e) {
+      return const Left(AppError());
+    }
   }
 
   @override

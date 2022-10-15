@@ -1,12 +1,12 @@
 class MarketSymbol {
   final String displayName;
   final String symbolId;
-  final String market;
+  final String marketId;
 
   const MarketSymbol({
     required this.displayName,
     required this.symbolId,
-    required this.market,
+    required this.marketId,
   });
 
   @override

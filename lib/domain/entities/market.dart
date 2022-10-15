@@ -2,18 +2,18 @@ import 'package:deriv_test/domain/entities/market_symbol.dart';
 
 class Market {
   final String name;
-  final String market;
+  final String marketId;
   List<MarketSymbol>? symbols;
 
   Market({
     required this.name,
-    required this.market,
+    required this.marketId,
     this.symbols,
   });
 
   @override
-  operator ==(dynamic other) => other is Market && other.market == market;
+  operator ==(dynamic other) => other is Market && other.marketId == marketId;
 
   @override
-  int get hashCode => market.hashCode;
+  int get hashCode => marketId.hashCode;
 }

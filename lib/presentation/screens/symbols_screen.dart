@@ -63,13 +63,13 @@ class _PickerWidgetState extends State<_PickerWidget> {
           items: List.generate(
             widget.markets.length,
             (index) => DropdownMenuItem(
-              value: widget.markets[index].market,
+              value: widget.markets[index].marketId,
               child: Text(widget.markets[index].name),
             ),
           ),
           onChanged: (val) => setState(() {
             selectedMarket = widget.markets.firstWhere((element) {
-              return element.market == val;
+              return element.marketId == val;
             });
           }),
         ),
