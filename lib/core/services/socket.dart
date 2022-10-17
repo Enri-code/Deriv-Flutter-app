@@ -1,14 +1,18 @@
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-abstract class SocketConnection {
-  static final _webSocket = WebSocketChannel.connect(
-    Uri.parse('wss://ws.binaryws.com/websockets/v3?app_id=1089'),
-  );
+///A class that exposes the websocket's stream and sink
+class SocketConnection {
+  SocketConnection(String baseUrl)
+      : _webSocket = WebSocketChannel.connect(Uri.parse(baseUrl));
 
-  static Stream? _breadcastStream;
+  final WebSocketChannel _webSocket;
 
-  static Sink get sink => _webSocket.sink;
-  static Stream get stream {
+  Sink get sink => _webSocket.sink;
+
+  Stream? _breadcastStream;
+
+  ///Convert's the websocket stream to a broadcast stream and returns it
+  Stream get stream {
     return _breadcastStream ??= _webSocket.stream.asBroadcastStream();
   }
 }

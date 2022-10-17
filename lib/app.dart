@@ -1,4 +1,5 @@
 import 'package:deriv_test/core/constants/config.dart';
+import 'package:deriv_test/core/services/socket.dart';
 import 'package:deriv_test/data/repos/price_tracker_repo.dart';
 import 'package:deriv_test/domain/repos/price_tracker_repo.dart';
 import 'package:deriv_test/presentation/bloc/symbols_cubit/symbols_cubit.dart';
@@ -12,7 +13,9 @@ class DerivApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider<IPriceTrackerRepo>(
-      create: (context) => PriceTrackerRepoImpl(),
+      create: (context) => PriceTrackerRepoImpl(
+        SocketConnection(AppConfig.socketBaseUrl),
+      ),
       child: BlocProvider(
         create: (context) => SymbolsCubit(context.read<IPriceTrackerRepo>()),
         child: const MaterialApp(

@@ -13,8 +13,11 @@ import 'package:deriv_test/domain/entities/market.dart';
 import 'package:deriv_test/domain/repos/price_tracker_repo.dart';
 
 class PriceTrackerRepoImpl extends IPriceTrackerRepo {
-  PriceTrackerRepoImpl();
+  PriceTrackerRepoImpl(this._socket);
 
+  final SocketConnection _socket;
+
+  ///Creates a stream for handling only the ticks returned from the socket
   final _ticksStream = StreamController<num>.broadcast();
   StreamSubscription? _ticksSub;
 
@@ -27,22 +30,24 @@ class PriceTrackerRepoImpl extends IPriceTrackerRepo {
         "req_id": IDGenerator.random(),
       });
 
-      SocketConnection.sink.add(parameters);
-/*       dynamic data;
-      await SocketConnection.stream.forEach((element) => data = element);
-      data = jsonDecode(data); */
-      final data = jsonDecode(await SocketConnection.stream.first);
+      _socket.sink.add(parameters);
+
+      final data = jsonDecode(await _socket.stream.first);
+
       final activeSymbols = data['active_symbols'] as List;
+
       final markets = activeSymbols.map((e) => MarketModel.fromMap(e)).toSet();
+
       final symbols =
           activeSymbols.map((e) => MarketSymbolModel.fromMap(e)).toSet();
 
-      //Gets the symbols for each market and stores in the market's symbols variable
+      //Gets the symbols for each unique market and stores in the market's symbols variable
       for (final market in markets) {
         market.symbols = symbols.where((symbol) {
           return symbol.marketId == market.marketId;
         }).toList();
       }
+
       return Right(Stream.value(markets.toList()));
     } catch (e) {
       return const Left(AppError());
@@ -56,17 +61,23 @@ class PriceTrackerRepoImpl extends IPriceTrackerRepo {
         'ticks': symbolId,
         "req_id": IDGenerator.random(),
       });
-      SocketConnection.sink.add(parameters);
+
+      _socket.sink.add(parameters);
 
       _ticksSub?.cancel();
-      _ticksSub = SocketConnection.stream.listen((event) {
+
+      ///Listen for new tick events and add it to the [_ticksStream] stream
+      _ticksSub = _socket.stream.listen((event) {
         final newData = jsonDecode(event);
         if (newData['tick'] != null) _ticksStream.add(newData['tick']['quote']);
       });
 
-      final data = jsonDecode(await SocketConnection.stream.first);
-      if (data['error'] != null)
+      final data = jsonDecode(await _socket.stream.first);
+
+      if (data['error'] != null) {
         return Left(AppError(data['error']['message']));
+      }
+
       return Right(
         ResponseWithSubId(
           data: _ticksStream.stream.asBroadcastStream(),
@@ -82,7 +93,7 @@ class PriceTrackerRepoImpl extends IPriceTrackerRepo {
   AsyncErrorOr<void> forget(int requestId) async {
     try {
       final parameters = jsonEncode({"forget": requestId});
-      SocketConnection.sink.add(parameters);
+      _socket.sink.add(parameters);
       return const Right(null);
     } catch (e) {
       return const Left(AppError());
