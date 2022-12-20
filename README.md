@@ -1,4 +1,4 @@
-# deriv_assessment
+# Deriv demo app
 
 A new Flutter project.
 
