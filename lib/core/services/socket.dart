@@ -2,7 +2,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 ///A class that exposes the websocket's stream and sink
 class SocketConnection {
-  SocketConnection(String baseUrl)
+  SocketConnection({required String baseUrl})
       : _webSocket = WebSocketChannel.connect(Uri.parse(baseUrl));
 
   final WebSocketChannel _webSocket;

@@ -5,7 +5,9 @@ import 'package:deriv_test/core/utils/socket_response.dart';
 import 'package:deriv_test/domain/entities/market.dart';
 
 abstract class IPriceTrackerRepo {
-  AsyncErrorOr<Stream<List<Market>>> getSymbols();
-  AsyncErrorOr<ResponseWithSubId<Stream<num>>> getTicks(String symbolId);
-  AsyncErrorOr<void> forget(int requestId);
+  ///Gets all active symbols
+  AsyncErrorOr<List<Market>> getSymbols();
+
+  ///Gets the real-time ticks of a symbol as a Stream
+  AsyncErrorOr<TicksResponse<Stream<num>>> getTicks(String symbolId);
 }

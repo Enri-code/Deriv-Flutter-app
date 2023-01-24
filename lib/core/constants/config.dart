@@ -1,6 +1,7 @@
 ///Global class containing const variables for the application
 /// used across the project
 abstract class AppConfig {
+  
   AppConfig._();
 
   ///The one-line description used to represent the app (Android and Web)

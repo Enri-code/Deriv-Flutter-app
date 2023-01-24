@@ -1,6 +1,11 @@
-class ResponseWithSubId<T> {
-  const ResponseWithSubId({required this.data, required this.requestId});
+///Model used to return a value and a subscription id needed to cancel that
+///subscription
+class TicksResponse<T> {
+  const TicksResponse({
+    required this.ticksStream,
+    required this.subscriptionId,
+  });
 
-  final T data;
-  final int requestId;
+  final T ticksStream;
+  final int subscriptionId;
 }

@@ -15,9 +15,9 @@ void main() {
     usecase = GetPriceTicks(mockPriceTrackerRepo, symbol: 'symbol');
   });
 
-  const response = ResponseWithSubId(
-    data: Stream<double>.empty(),
-    requestId: 4,
+  const response = TicksResponse(
+    ticksStream: Stream<double>.empty(),
+    subscriptionId: 4,
   );
 
   test(

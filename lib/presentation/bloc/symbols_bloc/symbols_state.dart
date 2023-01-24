@@ -1,6 +1,7 @@
-part of 'symbols_cubit.dart';
+part of 'symbols_bloc.dart';
 
-abstract class SymbolsState extends Equatable {
+///The state when the active symbols are queried
+class SymbolsState extends Equatable {
   const SymbolsState({
     this.status = OperationStatus.initial,
     this.markets,
@@ -9,30 +10,22 @@ abstract class SymbolsState extends Equatable {
 
   final String? errorMessage;
   final OperationStatus status;
-  final Stream<List<Market>>? markets;
+  final List<Market>? markets;
 
-  SymbolsState copyWith({OperationStatus? status, String? errorMessage});
-
-  @override
-  List<Object?> get props => [status, markets, errorMessage];
-}
-
-///The state when the active symbols are queried
-class ActiveSymbolsState extends SymbolsState {
-  const ActiveSymbolsState({super.status, super.markets, super.errorMessage});
-
-  @override
-  ActiveSymbolsState copyWith({
+  SymbolsState copyWith({
     OperationStatus? status,
     String? errorMessage,
-    Stream<List<Market>>? markets,
+    List<Market>? markets,
   }) {
-    return ActiveSymbolsState(
+    return SymbolsState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       markets: markets ?? this.markets,
     );
   }
+
+  @override
+  List<Object?> get props => [status, markets, errorMessage];
 }
 
 ///The state when the price tick is queried
@@ -51,7 +44,7 @@ class SymbolTicksState extends SymbolsState {
     OperationStatus? status,
     String? errorMessage,
     Stream<num>? priceTicks,
-    Stream<List<Market>>? markets,
+    List<Market>? markets,
   }) {
     return SymbolTicksState(
       status: status ?? super.status,

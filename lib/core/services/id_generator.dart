@@ -1,5 +1,5 @@
 import 'dart:math';
 
 abstract class IDGenerator {
-  static int random() => Random().nextInt(99999);
+  static int randomInt() => Random().nextInt(99999);
 }

@@ -63,7 +63,8 @@ class MockIPriceTrackerRepo extends _i1.Mock implements _i3.IPriceTrackerRepo {
   @override
   _i4.Future<
       _i2.Either<_i5.AppError,
-          _i7.ResponseWithSubId<_i4.Stream<num>>>> getTicks(String? symbolId) =>
+              _i7.TicksResponse<_i4.Stream<num>>>>
+      getTicks(String? symbolId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTicks,
@@ -71,8 +72,8 @@ class MockIPriceTrackerRepo extends _i1.Mock implements _i3.IPriceTrackerRepo {
         ),
         returnValue: _i4.Future<
                 _i2.Either<_i5.AppError,
-                    _i7.ResponseWithSubId<_i4.Stream<num>>>>.value(
-            _FakeEither_0<_i5.AppError, _i7.ResponseWithSubId<_i4.Stream<num>>>(
+                        _i7.TicksResponse<_i4.Stream<num>>>>.value(
+                _FakeEither_0<_i5.AppError, _i7.TicksResponse<_i4.Stream<num>>>(
           this,
           Invocation.method(
             #getTicks,
@@ -80,7 +81,7 @@ class MockIPriceTrackerRepo extends _i1.Mock implements _i3.IPriceTrackerRepo {
           ),
         )),
       ) as _i4.Future<
-          _i2.Either<_i5.AppError, _i7.ResponseWithSubId<_i4.Stream<num>>>>);
+              _i2.Either<_i5.AppError, _i7.TicksResponse<_i4.Stream<num>>>>);
   @override
   _i4.Future<_i2.Either<_i5.AppError, void>> forget(int? requestId) =>
       (super.noSuchMethod(

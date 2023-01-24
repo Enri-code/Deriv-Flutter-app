@@ -1,8 +1,10 @@
+import 'package:deriv_test/app/theme/theme_data.dart';
 import 'package:deriv_test/core/constants/config.dart';
 import 'package:deriv_test/core/services/socket.dart';
 import 'package:deriv_test/data/repos/price_tracker_repo.dart';
+import 'package:deriv_test/data/repos/price_tracker_service.dart';
 import 'package:deriv_test/domain/repos/price_tracker_repo.dart';
-import 'package:deriv_test/presentation/bloc/symbols_cubit/symbols_cubit.dart';
+import 'package:deriv_test/presentation/bloc/symbols_bloc/symbols_bloc.dart';
 import 'package:deriv_test/presentation/screens/symbols_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,14 +16,17 @@ class DerivApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider<IPriceTrackerRepo>(
       create: (context) => PriceTrackerRepoImpl(
-        SocketConnection(AppConfig.socketBaseUrl),
+        PriceTrackerServiceImpl(
+          socket: SocketConnection(baseUrl: AppConfig.socketBaseUrl),
+        ),
       ),
       child: BlocProvider(
-        create: (context) => SymbolsCubit(context.read<IPriceTrackerRepo>()),
-        child: const MaterialApp(
+        create: (context) => SymbolsBloc(context.read<IPriceTrackerRepo>()),
+        child: MaterialApp(
           title: AppConfig.appName,
           debugShowCheckedModeBanner: false,
-          home: SymbolsScreen(),
+          theme: LightThemeData(Colors.blue).theme,
+          home: const SymbolsScreen(),
         ),
       ),
     );
