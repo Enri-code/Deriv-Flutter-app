@@ -19,7 +19,7 @@ class PriceTrackerServiceImpl extends IPriceTrackerService {
   int? _requestId;
 
   @override
-  Future<List> getSymbols() async {
+  Future<List<Map<String, dynamic>>> getSymbols() async {
     _forgetTickSubscription();
 
     final parameters = jsonEncode({
@@ -29,7 +29,9 @@ class PriceTrackerServiceImpl extends IPriceTrackerService {
     });
 
     _socket.sink.add(parameters);
-    return jsonDecode(await _socket.stream.first)['active_symbols'] as List;
+    
+    return jsonDecode(await _socket.stream.first)['active_symbols']
+        as List<Map<String, dynamic>>;
   }
 
   @override

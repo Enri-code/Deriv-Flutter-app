@@ -18,7 +18,7 @@ void main() {
     usecase = GetActiveSymbols(mockPriceTrackerRepo);
   });
 
-  const response = Stream<List<Market>>.empty();
+  const response = <Market>[];
 
   test(
     'should get active symbols from the repo',

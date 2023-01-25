@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
-import 'package:deriv_test/core/services/id_generator.dart';
 import 'package:deriv_test/core/utils/app_error.dart';
 import 'package:deriv_test/core/utils/error_or.dart';
 import 'package:deriv_test/core/utils/socket_response.dart';

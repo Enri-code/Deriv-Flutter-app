@@ -42,60 +42,39 @@ class MockIPriceTrackerRepo extends _i1.Mock implements _i3.IPriceTrackerRepo {
   }
 
   @override
-  _i4.Future<
-      _i2
-          .Either<_i5.AppError, _i4.Stream<List<_i6.Market>>>> getSymbols() =>
+  _i4.Future<_i2.Either<_i5.AppError, List<_i6.Market>>> getSymbols() =>
       (super.noSuchMethod(
         Invocation.method(
           #getSymbols,
           [],
         ),
-        returnValue: _i4.Future<
-                _i2.Either<_i5.AppError, _i4.Stream<List<_i6.Market>>>>.value(
-            _FakeEither_0<_i5.AppError, _i4.Stream<List<_i6.Market>>>(
+        returnValue:
+            _i4.Future<_i2.Either<_i5.AppError, List<_i6.Market>>>.value(
+                _FakeEither_0<_i5.AppError, List<_i6.Market>>(
           this,
           Invocation.method(
             #getSymbols,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.AppError, _i4.Stream<List<_i6.Market>>>>);
+      ) as _i4.Future<_i2.Either<_i5.AppError, List<_i6.Market>>>);
   @override
-  _i4.Future<
-      _i2.Either<_i5.AppError,
-              _i7.TicksResponse<_i4.Stream<num>>>>
-      getTicks(String? symbolId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getTicks,
-          [symbolId],
-        ),
-        returnValue: _i4.Future<
-                _i2.Either<_i5.AppError,
+  _i4.Future<_i2.Either<_i5.AppError, _i7.TicksResponse<_i4.Stream<num>>>>
+      getTicks(String? symbolId) => (super.noSuchMethod(
+            Invocation.method(
+              #getTicks,
+              [symbolId],
+            ),
+            returnValue: _i4.Future<
+                    _i2.Either<_i5.AppError,
                         _i7.TicksResponse<_i4.Stream<num>>>>.value(
                 _FakeEither_0<_i5.AppError, _i7.TicksResponse<_i4.Stream<num>>>(
-          this,
-          Invocation.method(
-            #getTicks,
-            [symbolId],
-          ),
-        )),
-      ) as _i4.Future<
+              this,
+              Invocation.method(
+                #getTicks,
+                [symbolId],
+              ),
+            )),
+          ) as _i4.Future<
               _i2.Either<_i5.AppError, _i7.TicksResponse<_i4.Stream<num>>>>);
-  @override
-  _i4.Future<_i2.Either<_i5.AppError, void>> forget(int? requestId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #forget,
-          [requestId],
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.AppError, void>>.value(
-            _FakeEither_0<_i5.AppError, void>(
-          this,
-          Invocation.method(
-            #forget,
-            [requestId],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.AppError, void>>);
 }
