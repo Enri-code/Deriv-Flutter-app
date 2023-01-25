@@ -1,12 +1,13 @@
 import 'package:deriv_test/app/theme/widgets_theme.dart';
 import 'package:flutter/material.dart';
 
-class LightThemeData {
-  final Color primaryColor;
-  LightThemeData(this.primaryColor) {
-    widgetsTheme = WidgetsThemeData(primaryColor: primaryColor);
+class ThemeBuilder {
+  ThemeBuilder({Color primaryColor = Colors.blue, bool isDarkTheme = false}) {
+    widgetsTheme = WidgetsThemeData(primaryColor);
     theme = ThemeData.from(
-      colorScheme: ColorScheme.light(primary: primaryColor),
+      colorScheme: isDarkTheme
+          ? ColorScheme.dark(primary: primaryColor)
+          : ColorScheme.light(primary: primaryColor),
     ).copyWith(
       visualDensity: VisualDensity.compact,
       appBarTheme: widgetsTheme.appBarTheme,

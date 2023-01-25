@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
 class WidgetsThemeData {
-  final Color primaryColor;
-  WidgetsThemeData({required this.primaryColor})
-      : textButtonTheme = TextButtonThemeData(
-          style: TextButton.styleFrom(foregroundColor: primaryColor),
+  WidgetsThemeData(Color primaryColor) {
+    textButtonTheme = TextButtonThemeData(
+      style: TextButton.styleFrom(foregroundColor: primaryColor),
+    );
+    outlinedButtonTheme = OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        fixedSize: const Size(380, 56),
+        padding: const EdgeInsets.all(12),
+        side: BorderSide(width: 1.5, color: primaryColor),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
         ),
-        outlinedButtonTheme = OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            fixedSize: const Size(380, 56),
-            padding: const EdgeInsets.all(12),
-            side: BorderSide(width: 1.5, color: primaryColor),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        );
+      ),
+    );
+  }
 
-  final TextButtonThemeData textButtonTheme;
-  final OutlinedButtonThemeData outlinedButtonTheme;
+  late final TextButtonThemeData textButtonTheme;
+  late final OutlinedButtonThemeData outlinedButtonTheme;
 
   final appBarTheme = const AppBarTheme(
     elevation: 0,

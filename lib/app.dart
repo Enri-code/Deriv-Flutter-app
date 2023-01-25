@@ -25,7 +25,7 @@ class DerivApp extends StatelessWidget {
         child: MaterialApp(
           title: AppConfig.appName,
           debugShowCheckedModeBanner: false,
-          theme: LightThemeData(Colors.blue).theme,
+          theme: ThemeBuilder(primaryColor: Colors.blue).theme,
           home: const SymbolsScreen(),
         ),
       ),
