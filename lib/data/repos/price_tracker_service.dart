@@ -12,42 +12,53 @@ class PriceTrackerServiceImpl extends IPriceTrackerService {
 
   final SocketConnection _socket;
 
+  /// Broadcast Stream containing active ticks
   final _ticksStream = StreamController<num>.broadcast();
 
-  ///Creates a streamSubscription for the ticks returned from the socket
+  /// Creates a streamSubscription for the ticks returned from the socket
   StreamSubscription? _ticksSub;
+
+  /// Stores request id for tick, used to forget (close) connection
   int? _requestId;
 
   @override
   Future<List<Map<String, dynamic>>> getSymbols() async {
     _forgetTickSubscription();
 
-    final parameters = jsonEncode({
+    final parameters = {
       "active_symbols": "brief",
       "product_type": "basic",
       "req_id": _requestId = IDGenerator.randomInt(),
-    });
+    };
 
-    _socket.sink.add(parameters);
-    
-    return jsonDecode(await _socket.stream.first)['active_symbols']
-        as List<Map<String, dynamic>>;
+    _socket.sink.add(jsonEncode(parameters));
+
+    final response = jsonDecode(await _socket.stream.first);
+
+    return response['active_symbols'] as List<Map<String, dynamic>>;
   }
 
   @override
   TicksResponse<Stream<num>> getTicks(String symbolId) {
     _forgetTickSubscription();
-    final map = {
+
+    final parameters = {
       'ticks': symbolId,
       "req_id": _requestId = IDGenerator.randomInt(),
     };
 
-    _socket.sink.add(jsonEncode(map));
+    _socket.sink.add(jsonEncode(parameters));
 
-    _ticksSub ??= _socket.stream.listen((event) {
+    //Cancel current tick subscription and registers new one
+    _ticksSub?.cancel();
+
+    _ticksSub = _socket.stream.listen((event) {
+
       final newData = jsonDecode(event);
+      //Adds [quote] key's value from tick map to stream, if exists
       if (newData['tick'] != null) {
         _ticksStream.add(newData['tick']['quote']);
+        //Sends [-999] to stream as an error code to be handled
       } else if (newData['error'] != null) {
         _ticksStream.add(-999);
       }
@@ -55,13 +66,13 @@ class PriceTrackerServiceImpl extends IPriceTrackerService {
 
     return TicksResponse(
       ticksStream: _ticksStream.stream,
-      subscriptionId: map['req_id'] as int,
+      subscriptionId: parameters['req_id'] as int,
     );
   }
 
+  ///Sends request to forget server subscription before requestion new one
   void _forgetTickSubscription() {
     if (_requestId == null) return;
-    final parameters = jsonEncode({"forget": _requestId});
-    _socket.sink.add(parameters);
+    _socket.sink.add(jsonEncode({"forget": _requestId}));
   }
 }

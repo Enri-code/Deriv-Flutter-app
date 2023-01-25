@@ -19,7 +19,9 @@ class PriceTrackerRepoImpl extends IPriceTrackerRepo {
     try {
       final data = await _service.getSymbols();
 
+      //Gets all the markets in the response JSON
       final markets = data.map((e) => MarketModel.fromMap(e)).toSet();
+      //Gets all the markets symbols in the response JSON
       final symbols = data.map((e) => MarketSymbolModel.fromMap(e)).toSet();
 
       //Gets the symbols for each unique market and stores in the market's symbols variable
@@ -40,7 +42,7 @@ class PriceTrackerRepoImpl extends IPriceTrackerRepo {
     try {
       final responseData = _service.getTicks(symbolId);
 
-      // final data = jsonDecode(await _socket.stream.first);
+      // Responds to error code: [-999], sent to the stream from service
       if (await responseData.ticksStream.first == -999) {
         return const Left(AppError());
       }
