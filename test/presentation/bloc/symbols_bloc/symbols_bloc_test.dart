@@ -13,10 +13,12 @@ import '../../../domain/usecases/get_active_symbols_test.mocks.dart';
 void main() {
   late IPriceTrackerRepo repo;
 
-  setUp(() {
-    repo = MockIPriceTrackerRepo();
-  });
+  const response = TicksResponse(
+    ticksStream: Stream<String>.empty(),
+    subscriptionId: '',
+  );
 
+  setUp(() => repo = MockIPriceTrackerRepo());
   group(
     'Symbols bloc test',
     () {
@@ -59,13 +61,7 @@ void main() {
       blocTest<SymbolsBloc, SymbolsState>(
         'should return a stream from getTicks and change state\'s status to success',
         setUp: () async {
-          when(repo.getTicks('symbol')).thenAnswer((_) async {
-            const response = TicksResponse(
-              ticksStream: Stream<num>.empty(),
-              subscriptionId: 0,
-            );
-            return const Right(response);
-          });
+          when(repo.getTicks('symbol')).thenReturn(response);
         },
         build: () => SymbolsBloc(repo),
         act: (bloc) => bloc.add(const GetSymbolTicksEvent('symbol')),
@@ -79,36 +75,7 @@ void main() {
             SymbolTicksState(
               status: OperationStatus.success,
               markets: null,
-              priceTicks: Stream<num>.empty(),
-            )
-          ];
-        },
-        verify: (bloc) {
-          verify(repo.getTicks('symbol')).called(1);
-          verifyNoMoreInteractions(repo);
-        },
-      );
-
-      blocTest<SymbolsBloc, SymbolsState>(
-        'should return error from getTicks and change state\'s status to success',
-        setUp: () async {
-          when(repo.getTicks('symbol')).thenAnswer((_) async {
-            return const Left(AppError());
-          });
-        },
-        build: () => SymbolsBloc(repo),
-        act: (bloc) => bloc.add(const GetSymbolTicksEvent('symbol')),
-        expect: () {
-          return const [
-            SymbolTicksState(
-              status: OperationStatus.loading,
-              markets: null,
-              priceTicks: null,
-            ),
-            SymbolTicksState(
-              status: OperationStatus.error,
-              markets: null,
-              priceTicks: null,
+              priceTicks: Stream<String>.empty(),
             )
           ];
         },

@@ -121,7 +121,7 @@ class _PriceSection extends StatelessWidget {
         return Center(
           child: DefaultTextStyle(
             style: const TextStyle(fontSize: 24, color: Colors.black),
-            child: StreamBuilder<num>(
+            child: StreamBuilder<String>(
               stream: (state as SymbolTicksState).priceTicks,
               builder: (context, snapshot) {
                 if (state.status == OperationStatus.error) {

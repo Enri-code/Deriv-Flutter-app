@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:deriv_test/core/utils/app_error.dart';
 import 'package:deriv_test/data/repos/price_tracker_repo.dart';
+import 'package:deriv_test/domain/entities/market.dart';
 import 'package:deriv_test/domain/repos/price_tracker_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -25,12 +27,13 @@ void main() {
         () async {
           //When [getSymbols] is called, it should return value
           when(service.getSymbols()).thenAnswer(
-            (_) async => const [],
+            (_) async => const <Map<String, dynamic>>[],
           );
 
           final result = await repo.getSymbols();
 
-          expect(result, const Right([]));
+          expect(result, isA<Right>());
+          expect((result as Right<AppError, List<Market>>).value, isEmpty);
           // Verify that the function was called on the repo
           verify(service.getSymbols()).called(1);
 

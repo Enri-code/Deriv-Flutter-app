@@ -1,6 +1,6 @@
-import 'dart:math';
+import 'package:random_string/random_string.dart';
 
 abstract class IDGenerator {
   IDGenerator._();
-  static int randomInt() => Random().nextInt(99999);
+  static String randomString() => randomNumeric(120);
 }

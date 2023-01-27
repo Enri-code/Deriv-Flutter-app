@@ -33,28 +33,12 @@ class PriceTrackerRepoImpl extends IPriceTrackerRepo {
 
       return Right(markets.toList());
     } catch (e) {
-      return const Left(AppError());
+      return Left(AppError(e.toString()));
     }
   }
 
   @override
-  AsyncErrorOr<TicksResponse<Stream<num>>> getTicks(String symbolId) async {
-    try {
-      final responseData = _service.getTicks(symbolId);
-
-      // Responds to error code: [-999], sent to the stream from service
-      if (await responseData.ticksStream.first == -999) {
-        return const Left(AppError());
-      }
-
-      return Right(
-        TicksResponse(
-          ticksStream: responseData.ticksStream,
-          subscriptionId: responseData.subscriptionId,
-        ),
-      );
-    } catch (e) {
-      return const Left(AppError());
-    }
+  TicksResponse<Stream<String>> getTicks(String symbolId) {
+    return _service.getTicks(symbolId);
   }
 }

@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:deriv_test/core/utils/socket_response.dart';
 import 'package:deriv_test/domain/usecases/get_price_ticks.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,8 +15,8 @@ void main() {
   });
 
   const response = TicksResponse(
-    ticksStream: Stream<double>.empty(),
-    subscriptionId: 4,
+    ticksStream: Stream<String>.empty(),
+    subscriptionId: '',
   );
 
   test(
@@ -25,15 +24,10 @@ void main() {
     () async {
       //When [getTicks] is called, it should return the [Right] of the
       //Either argument.
-      when(mockPriceTrackerRepo.getTicks('symbol')).thenAnswer((_) async {
-        return const Right(response);
-      });
-
-      ///Call the usecase function
-      final result = await usecase();
+      when(mockPriceTrackerRepo.getTicks('symbol')).thenReturn(response);
 
       // Usecase should return what was returned from the repo
-      expect(result, const Right(response));
+      expect(usecase(), response);
 
       // Verify that the function was called on the repo
       verify(mockPriceTrackerRepo.getTicks('symbol')).called(1);

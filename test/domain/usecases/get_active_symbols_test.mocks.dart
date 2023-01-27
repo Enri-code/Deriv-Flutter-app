@@ -3,13 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i2;
-import 'package:deriv_test/core/utils/app_error.dart' as _i5;
-import 'package:deriv_test/core/utils/socket_response.dart' as _i7;
-import 'package:deriv_test/domain/entities/market.dart' as _i6;
-import 'package:deriv_test/domain/repos/price_tracker_repo.dart' as _i3;
+import 'package:deriv_test/core/utils/app_error.dart' as _i6;
+import 'package:deriv_test/core/utils/socket_response.dart' as _i3;
+import 'package:deriv_test/domain/entities/market.dart' as _i7;
+import 'package:deriv_test/domain/repos/price_tracker_repo.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -33,48 +33,55 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
         );
 }
 
+class _FakeTicksResponse_1<T> extends _i1.SmartFake
+    implements _i3.TicksResponse<T> {
+  _FakeTicksResponse_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [IPriceTrackerRepo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIPriceTrackerRepo extends _i1.Mock implements _i3.IPriceTrackerRepo {
+class MockIPriceTrackerRepo extends _i1.Mock implements _i4.IPriceTrackerRepo {
   MockIPriceTrackerRepo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.AppError, List<_i6.Market>>> getSymbols() =>
+  _i5.Future<_i2.Either<_i6.AppError, List<_i7.Market>>> getSymbols() =>
       (super.noSuchMethod(
         Invocation.method(
           #getSymbols,
           [],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.AppError, List<_i6.Market>>>.value(
-                _FakeEither_0<_i5.AppError, List<_i6.Market>>(
+            _i5.Future<_i2.Either<_i6.AppError, List<_i7.Market>>>.value(
+                _FakeEither_0<_i6.AppError, List<_i7.Market>>(
           this,
           Invocation.method(
             #getSymbols,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.AppError, List<_i6.Market>>>);
+      ) as _i5.Future<_i2.Either<_i6.AppError, List<_i7.Market>>>);
   @override
-  _i4.Future<_i2.Either<_i5.AppError, _i7.TicksResponse<_i4.Stream<num>>>>
-      getTicks(String? symbolId) => (super.noSuchMethod(
-            Invocation.method(
-              #getTicks,
-              [symbolId],
-            ),
-            returnValue: _i4.Future<
-                    _i2.Either<_i5.AppError,
-                        _i7.TicksResponse<_i4.Stream<num>>>>.value(
-                _FakeEither_0<_i5.AppError, _i7.TicksResponse<_i4.Stream<num>>>(
-              this,
-              Invocation.method(
-                #getTicks,
-                [symbolId],
-              ),
-            )),
-          ) as _i4.Future<
-              _i2.Either<_i5.AppError, _i7.TicksResponse<_i4.Stream<num>>>>);
+  _i3.TicksResponse<_i5.Stream<String>> getTicks(String? symbolId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTicks,
+          [symbolId],
+        ),
+        returnValue: _FakeTicksResponse_1<_i5.Stream<String>>(
+          this,
+          Invocation.method(
+            #getTicks,
+            [symbolId],
+          ),
+        ),
+      ) as _i3.TicksResponse<_i5.Stream<String>>);
 }

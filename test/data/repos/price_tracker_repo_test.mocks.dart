@@ -50,18 +50,18 @@ class MockIPriceTrackerService extends _i1.Mock
             <Map<String, dynamic>>[]),
       ) as _i4.Future<List<Map<String, dynamic>>>);
   @override
-  _i2.TicksResponse<_i4.Stream<num>> getTicks(String? symbolId) =>
+  _i2.TicksResponse<_i4.Stream<String>> getTicks(String? symbolId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTicks,
           [symbolId],
         ),
-        returnValue: _FakeTicksResponse_0<_i4.Stream<num>>(
+        returnValue: _FakeTicksResponse_0<_i4.Stream<String>>(
           this,
           Invocation.method(
             #getTicks,
             [symbolId],
           ),
         ),
-      ) as _i2.TicksResponse<_i4.Stream<num>>);
+      ) as _i2.TicksResponse<_i4.Stream<String>>);
 }

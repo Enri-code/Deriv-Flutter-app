@@ -7,5 +7,5 @@ class TicksResponse<T> {
   });
 
   final T ticksStream;
-  final int subscriptionId;
+  final String subscriptionId;
 }

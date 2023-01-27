@@ -37,13 +37,13 @@ class SymbolTicksState extends SymbolsState {
     super.errorMessage,
   });
 
-  final Stream<num>? priceTicks;
+  final Stream<String>? priceTicks;
 
   @override
   SymbolTicksState copyWith({
     OperationStatus? status,
     String? errorMessage,
-    Stream<num>? priceTicks,
+    Stream<String>? priceTicks,
     List<Market>? markets,
   }) {
     return SymbolTicksState(

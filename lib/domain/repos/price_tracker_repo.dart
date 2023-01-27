@@ -9,5 +9,5 @@ abstract class IPriceTrackerRepo {
   AsyncErrorOr<List<Market>> getSymbols();
 
   ///Gets the real-time ticks of a symbol as a Stream
-  AsyncErrorOr<TicksResponse<Stream<num>>> getTicks(String symbolId);
+  TicksResponse<Stream<String>> getTicks(String symbolId);
 }

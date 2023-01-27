@@ -55,18 +55,12 @@ class SymbolsBloc extends Bloc<SymbolsEvent, SymbolsState> {
       priceTicks: null,
     ));
 
-    final result = await GetPriceTicks(_repo, symbol: event.symbolName).call();
+    final result = GetPriceTicks(_repo, symbol: event.symbolName).call();
 
-    result.fold(
-      (l) => _onError(l, emit),
-      (r) {
-        ///Store the last symbol name, to be used to query the forget tick api
-        emit((state as SymbolTicksState).copyWith(
-          status: OperationStatus.success,
-          markets: state.markets,
-          priceTicks: r.ticksStream,
-        ));
-      },
-    );
+    emit((state as SymbolTicksState).copyWith(
+      status: OperationStatus.success,
+      markets: state.markets,
+      priceTicks: result.ticksStream,
+    ));
   }
 }
